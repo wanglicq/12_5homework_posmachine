@@ -47,13 +47,6 @@ public class PosMachineTest {
         assertThat(total, is(125d));
     }
 
-    @Test
-    public void should_calculate_total_when_given_multiple_types_item() {
-        List<CartItem> emptyCart = Arrays.asList(new CartItem("ITEM000001", 3), new CartItem("ITEM000003", 2));
-        double total = posMachine.calculate(emptyCart);
-
-        assertThat(total, is(150d));
-    }
 
     @Test
     public void should_calculate_total_when_item5_has_discount() throws Exception {
@@ -81,6 +74,15 @@ public class PosMachineTest {
 
         assertThat(total, is(75d));
     }
+
+    @Test
+    public void should_calculate_total_when_given_multiple_types_item() {
+        List<CartItem> emptyCart = Arrays.asList(new CartItem("ITEM000001", 3), new CartItem("ITEM000003", 2));
+        double total = posMachine.calculate(emptyCart);
+
+        assertThat(total, is(150d));
+    }
+
 
 }
 

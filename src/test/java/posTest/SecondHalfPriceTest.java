@@ -20,7 +20,7 @@ public class SecondHalfPriceTest {
     }
 
     @Test
-    public void should_return_1_half_second_price() throws Exception {
+    public void should_return_1_when_has_1_type_half_second_price_item() throws Exception {
         List<String> input = Arrays.asList("I1");
         List<SecondHalfPrice> result = new SecondHalfPriceParser().parse(input);
         assertThat(result.size(), is(1));
@@ -28,7 +28,7 @@ public class SecondHalfPriceTest {
     }
 
     @Test
-    public void should_return_2_when_has_2_second_half_price_goods() throws Exception {
+    public void should_return_2_when_has_2_second_types_half_price_items() throws Exception {
         List<String> input = Arrays.asList("I1", "I2");
         List<SecondHalfPrice> result = new SecondHalfPriceParser().parse(input);
         assertThat(result.size(), is(2));

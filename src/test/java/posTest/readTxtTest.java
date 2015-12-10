@@ -19,7 +19,7 @@ public class readTxtTest {
     }
 
     @Test
-    public void should_return_empty_when_txt_has_1_data() throws Exception {
+    public void should_return_1_when_txt_has_1_data() throws Exception {
         String path = "data/onedata.txt";
         List<String> result = new readTxt().readData(path);
         assertThat(result.size(), is(1));
@@ -27,7 +27,7 @@ public class readTxtTest {
     }
 
     @Test
-    public void should_return_empty_when_txt_has_multiple_data() throws Exception {
+    public void should_return_3_when_txt_has_3_datas() throws Exception {
         String path = "data/itemlist.txt";
         List<String> result = new readTxt().readData(path);
         assertThat(result.size(), is(3));

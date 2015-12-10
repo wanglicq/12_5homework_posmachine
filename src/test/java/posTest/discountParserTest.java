@@ -12,7 +12,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
-public class discountTest {
+public class discountParserTest {
     @Test
     public void should_return_empty_when_given_none() throws Exception {
         // given
@@ -25,7 +25,7 @@ public class discountTest {
     }
 
     @Test
-    public void should_return_1_discount_when_input_1_discount() throws Exception {
+    public void should_return_1_discount_when_has_1_type_discount_item() throws Exception {
         List<String> input = Arrays.asList("I1:75");
         List<Discount> result = new DiscountParser().parse(input);
         assertThat(result.size(),is(1));
@@ -35,7 +35,7 @@ public class discountTest {
     }
 
     @Test
-    public void should_return_2_discounts_when_input_multiple_discount() throws Exception {
+    public void should_return_2_discounts_when_has_2_types_discount_items() throws Exception {
         List<String> input = Arrays.asList("I1:75", "I2:90");
         List<Discount> result = new DiscountParser().parse(input);
         assertThat(result.size(),is(2));
