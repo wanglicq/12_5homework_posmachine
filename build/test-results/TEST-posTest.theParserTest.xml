@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="posTest.theParserTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2015-12-11T05:19:20" hostname="wangli-Inspiron-5420" time="0.01">
+  <properties/>
+  <testcase name="should_get_1_cart_item" classname="posTest.theParserTest" time="0.007"/>
+  <testcase name="should_complain_invalid_amount" classname="posTest.theParserTest" time="0.001"/>
+  <testcase name="should_get_empty_when_given_none" classname="posTest.theParserTest" time="0.001"/>
+  <testcase name="should_get_2_cart_item" classname="posTest.theParserTest" time="0.0"/>
+  <testcase name="should_complain_invalid_input_format" classname="posTest.theParserTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
