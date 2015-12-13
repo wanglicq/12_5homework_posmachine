@@ -4,6 +4,7 @@ import domain.CartItem;
 import domain.Item;
 import org.junit.Before;
 import org.junit.Test;
+import promotion.CompositePromotion;
 import promotion.DiscountPromotion;
 import promotion.SecondHalfPricePromotion;
 
@@ -20,7 +21,8 @@ public class PosMachineTest {
     public void setUp() {
         List<Item> allItems = Arrays.asList(new Item("ITEM000001", 40),
                 new Item("ITEM000003", 50), new Item("ITEM000005", 60));
-        posMachine = new PosMachine(allItems, new DiscountPromotion(), new SecondHalfPricePromotion());
+        CompositePromotion promotion = new CompositePromotion(new DiscountPromotion(), new SecondHalfPricePromotion());
+        posMachine = new PosMachine(allItems, promotion);
 
     }
 
