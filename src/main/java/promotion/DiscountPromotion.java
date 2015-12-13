@@ -5,26 +5,28 @@ import domain.Discount;
 import inter.ShopData;
 import parser.DiscountParser;
 
-import java.util.List;
+import java.util.Map;
+
+import static java.util.function.Function.identity;
+import static java.util.stream.Collectors.toMap;
 
 public class DiscountPromotion implements Promotion{
 
-    List<Discount> allDiscounts;
+    Map<String, Discount> allDiscounts;
 
     public DiscountPromotion() {
         DiscountParser disCountParser = new DiscountParser();
-        allDiscounts = disCountParser.parse(ShopData.DISCOUNT_ITEMS);
+        allDiscounts = disCountParser
+                            .parse(ShopData.DISCOUNT_ITEMS)
+                            .stream()
+                            .collect(toMap(Discount::getBarcode, identity()));
     }
 
     @Override
     public double getPromotion(CartItem cartItem) {
         String barcode = cartItem.getBarcode();
-        for(Discount disCount : allDiscounts){
-            if(disCount.getBarcode().equals(barcode)){
-                return disCount.getDiscount()/100;
-            }
-        }
-        return 1;
+
+        return allDiscounts.containsKey(barcode)? allDiscounts.get(barcode).getDiscount() / 100: 1;
     }
 
 }
