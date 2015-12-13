@@ -4,7 +4,6 @@ import domain.CartItem;
 import domain.Item;
 import domain.SecondHalfPrice;
 import inter.ShopData;
-import parser.ItemParser;
 import parser.SecondHalfPriceParser;
 
 import java.util.Collection;
@@ -12,12 +11,14 @@ import java.util.List;
 
 public class SecondHalfPricePromotion implements Promotion {
 
-    Collection<Item> allItems = new ItemParser().parse(ShopData.ITEMS_DATA);
-    SecondHalfPriceParser secondHalfPriceParser = new SecondHalfPriceParser();
-    List<SecondHalfPrice> allSecondHalfPrice = secondHalfPriceParser.parse(ShopData.SECOND_HALF_PRICE);
+    private Collection<Item> allItems;
+    private List<SecondHalfPrice> allSecondHalfPrice;
 
     public SecondHalfPricePromotion(Collection<Item> allItems) {
         this.allItems = allItems;
+
+        SecondHalfPriceParser secondHalfPriceParser = new SecondHalfPriceParser();
+        allSecondHalfPrice = secondHalfPriceParser.parse(ShopData.SECOND_HALF_PRICE);
     }
 
     @Override
