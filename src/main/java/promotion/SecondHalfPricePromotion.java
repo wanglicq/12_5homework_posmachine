@@ -7,17 +7,20 @@ import inter.ShopData;
 import parser.SecondHalfPriceParser;
 
 import java.util.Collection;
+import java.util.Map;
 import java.util.Set;
 
+import static java.util.function.Function.identity;
+import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Collectors.toSet;
 
 public class SecondHalfPricePromotion implements Promotion {
 
-    private Collection<Item> allItems;
+    private Map<String, Item> allItems;
     private Set<String> allSecondHalfPrice;
 
     public SecondHalfPricePromotion(Collection<Item> allItems) {
-        this.allItems = allItems;
+        this.allItems = allItems.stream().collect(toMap(Item::getBarcode, identity()));
 
         SecondHalfPriceParser secondHalfPriceParser = new SecondHalfPriceParser();
 
@@ -46,11 +49,7 @@ public class SecondHalfPricePromotion implements Promotion {
 
     private double getPrice(CartItem cartItem) {
         String barcode = cartItem.getBarcode();
-        for (Item item : allItems) {
-            if (item.getBarcode().equals(barcode)) {
-                return item.getPrice();
-            }
-        }
-        return 0;
+
+        return allItems.containsKey(barcode)? allItems.get(barcode).getPrice(): 0;
     }
 }
