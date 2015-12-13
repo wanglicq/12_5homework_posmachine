@@ -20,11 +20,7 @@ public final class PosMachine {
     }
 
     public double calculate(final List<CartItem> cartItems) {
-        double total = 0;
-        for (CartItem cartItem : cartItems) {
-            total += calculateSubtotal(cartItem);
-        }
-        return total;
+        return cartItems.stream().mapToDouble(this::calculateSubtotal).sum();
     }
 
     private double calculateSubtotal(final CartItem cartItem) {
@@ -43,7 +39,6 @@ public final class PosMachine {
 
         return item.getPrice();
     }
-
 
     private double queryItemPrice(final String barcode) {
         return allItems.get(barcode).getPrice();
