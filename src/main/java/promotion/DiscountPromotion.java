@@ -9,8 +9,12 @@ import java.util.List;
 
 public class DiscountPromotion implements Promotion{
 
-    DiscountParser disCountParser = new DiscountParser();
-    List<Discount> allDiscounts = disCountParser.parse(ShopData.DISCOUNT_ITEMS);
+    List<Discount> allDiscounts;
+
+    public DiscountPromotion() {
+        DiscountParser disCountParser = new DiscountParser();
+        allDiscounts = disCountParser.parse(ShopData.DISCOUNT_ITEMS);
+    }
 
     @Override
     public double getPromotion(CartItem cartItem) {
