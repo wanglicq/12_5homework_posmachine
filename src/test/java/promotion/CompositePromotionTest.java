@@ -48,4 +48,18 @@ public class CompositePromotionTest {
         assertThat(newPrice, is(50.0));
         assertThat(savePrice, is(25.0));
     }
+
+    @Test
+    public void item5_should_have_only_discount() throws Exception {
+
+        Item item = new Item("ITEM000005", 60.0);
+        CartItem cartItem = new CartItem("ITEM000005", 2);
+
+        Pair<Double, Double> discountRes = promotion.getPromotion(item, cartItem);
+        double newPrice = discountRes.getValue0();
+        double savePrice = discountRes.getValue1();
+
+        assertThat(newPrice, is(54.0));
+        assertThat(savePrice, is(0.0));
+    }
 }
