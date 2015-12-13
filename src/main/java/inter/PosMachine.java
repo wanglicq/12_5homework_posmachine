@@ -6,13 +6,17 @@ import promotion.DiscountPromotion;
 import promotion.SecondHalfPricePromotion;
 
 import java.util.List;
+import java.util.Map;
+
+import static java.util.function.Function.identity;
+import static java.util.stream.Collectors.toMap;
 
 public final class PosMachine {
-    private final List<Item> allItems;
 
+    private final Map<String, Item> allItems;
 
     public PosMachine(final List<Item> allItems) {
-        this.allItems = allItems;
+        this.allItems = allItems.stream().collect(toMap(Item::getBarcode, identity()));
     }
 
     public double calculate(final List<CartItem> cartItems) {
@@ -27,28 +31,21 @@ public final class PosMachine {
         String barcode = cartItem.getBarcode();
         double discount = new DiscountPromotion().getPromotion(cartItem);
         double discountPrice = setDiscountPrice(barcode, discount);
-        double saveInSecondHalfPrice = new SecondHalfPricePromotion(allItems).getPromotion(cartItem);
+        double saveInSecondHalfPrice = new SecondHalfPricePromotion(allItems.values()).getPromotion(cartItem);
         return cartItem.getQuantity() * discountPrice - saveInSecondHalfPrice;
     }
 
     private double setDiscountPrice(String barcode, double discount) {
         double originPrice = queryItemPrice(barcode);
-        for(Item item : allItems){
-            if(item.getBarcode().equals(barcode)){
-                item.setPrice(originPrice * discount);
-            }
-        }
-        return originPrice * discount;
+
+        Item item = allItems.get(barcode);
+        item.setPrice(originPrice * discount);
+
+        return item.getPrice();
     }
 
 
     private double queryItemPrice(final String barcode) {
-        for (Item item : allItems) {
-            if (item.getBarcode().equals(barcode)) {
-                return item.getPrice();
-            }
-        }
-
-        throw new IllegalArgumentException("unknown item");
+        return allItems.get(barcode).getPrice();
     }
 }

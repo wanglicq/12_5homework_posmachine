@@ -7,15 +7,16 @@ import inter.ShopData;
 import parser.ItemParser;
 import parser.SecondHalfPriceParser;
 
+import java.util.Collection;
 import java.util.List;
 
 public class SecondHalfPricePromotion implements Promotion {
 
-    List<Item> allItems = new ItemParser().parse(ShopData.ITEMS_DATA);
+    Collection<Item> allItems = new ItemParser().parse(ShopData.ITEMS_DATA);
     SecondHalfPriceParser secondHalfPriceParser = new SecondHalfPriceParser();
     List<SecondHalfPrice> allSecondHalfPrice = secondHalfPriceParser.parse(ShopData.SECOND_HALF_PRICE);
 
-    public SecondHalfPricePromotion(List<Item> allItems) {
+    public SecondHalfPricePromotion(Collection<Item> allItems) {
         this.allItems = allItems;
     }
 
