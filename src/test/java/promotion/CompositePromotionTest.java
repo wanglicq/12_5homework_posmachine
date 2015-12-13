@@ -34,4 +34,18 @@ public class CompositePromotionTest {
         assertThat(newPrice, is(30.0));
         assertThat(savePrice, is(15.0));
     }
+
+    @Test
+    public void item3_should_have_only_second_half() throws Exception {
+
+        Item item = new Item("ITEM000003", 50.0);
+        CartItem cartItem = new CartItem("ITEM000003", 2);
+
+        Pair<Double, Double> discountRes = promotion.getPromotion(item, cartItem);
+        double newPrice = discountRes.getValue0();
+        double savePrice = discountRes.getValue1();
+
+        assertThat(newPrice, is(50.0));
+        assertThat(savePrice, is(25.0));
+    }
 }
