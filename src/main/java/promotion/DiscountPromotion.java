@@ -18,10 +18,9 @@ public class DiscountPromotion implements Promotion{
 
     public DiscountPromotion() {
         DiscountParser disCountParser = new DiscountParser();
-        allDiscounts = disCountParser
-                            .parse(ShopData.DISCOUNT_ITEMS)
-                            .stream()
-                            .collect(toMap(Discount::getBarcode, identity()));
+        allDiscounts = disCountParser.parse(ShopData.DISCOUNT_ITEMS)
+                                     .stream()
+                                     .collect(toMap(Discount::getBarcode, identity()));
     }
 
     @Override
@@ -35,5 +34,4 @@ public class DiscountPromotion implements Promotion{
 
         return new Pair<>(price, 0.0);
     }
-
 }
