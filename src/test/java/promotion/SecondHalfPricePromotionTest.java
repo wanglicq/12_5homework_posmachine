@@ -1,11 +1,10 @@
-package posTest;
+package promotion;
 
 import domain.CartItem;
 import domain.Item;
 import inter.ShopData;
 import org.junit.Test;
 import parser.ItemParser;
-import promotion.SecondHalfPricePromotion;
 
 import java.util.List;
 

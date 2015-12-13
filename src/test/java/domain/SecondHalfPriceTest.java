@@ -1,6 +1,5 @@
-package posTest;
+package domain;
 
-import domain.SecondHalfPrice;
 import org.junit.Test;
 import parser.SecondHalfPriceParser;
 

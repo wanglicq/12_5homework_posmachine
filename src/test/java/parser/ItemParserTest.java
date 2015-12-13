@@ -1,9 +1,8 @@
-package posTest;
+package parser;
 
 import domain.Item;
 import org.junit.Before;
 import org.junit.Test;
-import parser.ItemParser;
 
 import java.util.Arrays;
 import java.util.List;

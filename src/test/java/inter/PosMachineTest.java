@@ -1,8 +1,7 @@
-package posTest;
+package inter;
 
 import domain.CartItem;
 import domain.Item;
-import inter.PosMachine;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -1,9 +1,8 @@
-package posTest;
+package parser;
 
 import domain.CartItem;
 import org.junit.Before;
 import org.junit.Test;
-import parser.ShoppingCartParser;
 
 import java.util.Arrays;
 import java.util.List;

@@ -1,10 +1,7 @@
-package posTest;
+package promotion;
 
 import domain.CartItem;
 import org.junit.Test;
-import promotion.DiscountPromotion;
-
-import java.util.Arrays;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;

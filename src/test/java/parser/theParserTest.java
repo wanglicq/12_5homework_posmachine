@@ -1,4 +1,4 @@
-package posTest;
+package parser;
 
 import domain.CartItem;
 import inter.TheParser;
