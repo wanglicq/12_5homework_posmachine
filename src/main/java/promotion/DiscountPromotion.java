@@ -2,7 +2,9 @@ package promotion;
 
 import domain.CartItem;
 import domain.Discount;
+import domain.Item;
 import inter.ShopData;
+import org.javatuples.Pair;
 import parser.DiscountParser;
 
 import java.util.Map;
@@ -23,10 +25,15 @@ public class DiscountPromotion implements Promotion{
     }
 
     @Override
-    public double getPromotion(CartItem cartItem) {
+    public Pair<Double, Double> getPromotion(Item item, CartItem cartItem) {
         String barcode = cartItem.getBarcode();
 
-        return allDiscounts.containsKey(barcode)? allDiscounts.get(barcode).getDiscount() / 100: 1;
+        double price = item.getPrice();
+        if (allDiscounts.containsKey(barcode)) {
+            price = item.getPrice() * allDiscounts.get(barcode).getDiscount() / 100;
+        }
+
+        return new Pair<>(price, 0.0);
     }
 
 }

@@ -2,6 +2,7 @@ package inter;
 
 import domain.CartItem;
 import domain.Item;
+import org.javatuples.Pair;
 import promotion.DiscountPromotion;
 import promotion.SecondHalfPricePromotion;
 
@@ -25,22 +26,20 @@ public final class PosMachine {
 
     private double calculateSubtotal(final CartItem cartItem) {
         String barcode = cartItem.getBarcode();
-        double discount = new DiscountPromotion().getPromotion(cartItem);
-        double discountPrice = setDiscountPrice(barcode, discount);
-        double saveInSecondHalfPrice = new SecondHalfPricePromotion(allItems.values()).getPromotion(cartItem);
-        return cartItem.getQuantity() * discountPrice - saveInSecondHalfPrice;
+        Item item = allItems.get(barcode);
+
+        Pair<Double, Double> discountResult = new DiscountPromotion().getPromotion(item, cartItem);
+        double discountPrice = setDiscountPrice(barcode, discountResult.getValue0());
+
+        Pair<Double, Double> secHalfResult = new SecondHalfPricePromotion().getPromotion(item, cartItem);
+
+        return cartItem.getQuantity() * discountPrice - secHalfResult.getValue1();
     }
 
-    private double setDiscountPrice(String barcode, double discount) {
-        double originPrice = queryItemPrice(barcode);
-
+    private double setDiscountPrice(String barcode, double price) {
         Item item = allItems.get(barcode);
-        item.setPrice(originPrice * discount);
+        item.setPrice(price);
 
         return item.getPrice();
-    }
-
-    private double queryItemPrice(final String barcode) {
-        return allItems.get(barcode).getPrice();
     }
 }

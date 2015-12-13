@@ -4,39 +4,31 @@ import domain.CartItem;
 import domain.Item;
 import domain.SecondHalfPrice;
 import inter.ShopData;
+import org.javatuples.Pair;
 import parser.SecondHalfPriceParser;
 
-import java.util.Collection;
-import java.util.Map;
 import java.util.Set;
 
-import static java.util.function.Function.identity;
-import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Collectors.toSet;
 
 public class SecondHalfPricePromotion implements Promotion {
 
-    private Map<String, Item> allItems;
     private Set<String> allSecondHalfPrice;
 
-    public SecondHalfPricePromotion(Collection<Item> allItems) {
-        this.allItems = allItems.stream().collect(toMap(Item::getBarcode, identity()));
-
+    public SecondHalfPricePromotion() {
         SecondHalfPriceParser secondHalfPriceParser = new SecondHalfPriceParser();
-
-        allSecondHalfPrice = secondHalfPriceParser
-                                .parse(ShopData.SECOND_HALF_PRICE)
-                                .stream()
-                                .map(SecondHalfPrice::getBarcode)
-                                .collect(toSet());
+        allSecondHalfPrice = secondHalfPriceParser.parse(ShopData.SECOND_HALF_PRICE)
+                                                  .stream()
+                                                  .map(SecondHalfPrice::getBarcode)
+                                                  .collect(toSet());
     }
 
     @Override
-    public double getPromotion(CartItem cartItem) {
-        double price = getPrice(cartItem);
+    public Pair<Double, Double> getPromotion(Item item, CartItem cartItem) {
+        double price = item.getPrice();
         double savePrice = getSavePrice(price, cartItem);
 
-        return savePrice;
+        return new Pair<>(price, savePrice);
     }
 
     private double getSavePrice(double price, CartItem cartItem) {
@@ -44,12 +36,5 @@ public class SecondHalfPricePromotion implements Promotion {
         Integer saveQuantity = cartItem.getQuantity() / 2;
 
         return allSecondHalfPrice.contains(barcode)? price / 2 * saveQuantity: 0;
-    }
-
-
-    private double getPrice(CartItem cartItem) {
-        String barcode = cartItem.getBarcode();
-
-        return allItems.containsKey(barcode)? allItems.get(barcode).getPrice(): 0;
     }
 }
