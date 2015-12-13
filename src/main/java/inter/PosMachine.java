@@ -2,53 +2,38 @@ package inter;
 
 import domain.CartItem;
 import domain.Item;
-import promotion.DiscountPromotion;
-import promotion.SecondHalfPricePromotion;
+import org.javatuples.Pair;
+import promotion.Promotion;
 
 import java.util.List;
+import java.util.Map;
+
+import static java.util.function.Function.identity;
+import static java.util.stream.Collectors.toMap;
 
 public final class PosMachine {
-    private final List<Item> allItems;
 
+    private final Map<String, Item> allItems;
+    private Promotion promotion;
 
-    public PosMachine(final List<Item> allItems) {
-        this.allItems = allItems;
+    public PosMachine(final List<Item> allItems, Promotion promotion) {
+
+        this.allItems = allItems.stream().collect(toMap(Item::getBarcode, identity()));
+        this.promotion = promotion;
     }
 
     public double calculate(final List<CartItem> cartItems) {
-        double total = 0;
-        for (CartItem cartItem : cartItems) {
-            total += calculateSubtotal(cartItem);
-        }
-        return total;
+        return cartItems.stream().mapToDouble(this::calculateSubtotal).sum();
     }
 
     private double calculateSubtotal(final CartItem cartItem) {
         String barcode = cartItem.getBarcode();
-        double discount = new DiscountPromotion().getPromotion(cartItem);
-        double discountPrice = setDiscountPrice(barcode, discount);
-        double saveInSecondHalfPrice = new SecondHalfPricePromotion(allItems).getPromotion(cartItem);
-        return cartItem.getQuantity() * discountPrice - saveInSecondHalfPrice;
-    }
+        Item item = allItems.get(barcode);
 
-    private double setDiscountPrice(String barcode, double discount) {
-        double originPrice = queryItemPrice(barcode);
-        for(Item item : allItems){
-            if(item.getBarcode().equals(barcode)){
-                item.setPrice(originPrice * discount);
-            }
-        }
-        return originPrice * discount;
-    }
+        Pair<Double, Double> promotionResult = promotion.getPromotion(item, cartItem);
+        double newPrice = promotionResult.getValue0();
+        double savePrice = promotionResult.getValue1();
 
-
-    private double queryItemPrice(final String barcode) {
-        for (Item item : allItems) {
-            if (item.getBarcode().equals(barcode)) {
-                return item.getPrice();
-            }
-        }
-
-        throw new IllegalArgumentException("unknown item");
+        return cartItem.getQuantity() * newPrice - savePrice;
     }
 }

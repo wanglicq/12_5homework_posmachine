@@ -1,7 +1,9 @@
 package promotion;
 
 import domain.CartItem;
+import domain.Item;
+import org.javatuples.Pair;
 
 public interface Promotion {
-    double getPromotion(CartItem cartItem);
+    Pair<Double, Double> getPromotion(Item item, CartItem cartItem);
 }
